@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { UserService } from "../../Service/user.service";
 import { UserDTOLogIn } from "../../dto/UserDTOLogIn";
+import { Router } from "@angular/router";
+
 
 @Component({
   selector: 'app-log-in-user',
@@ -13,18 +15,21 @@ export class LogInUserComponent {
     email: new FormControl(null, [Validators.required]),
     password: new FormControl(null, [Validators.required])
   });
+
   okMessage: string | null = null; 
   errorMessage: string | null = null;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) {}
 
   logInUser() {
     let user = new UserDTOLogIn(
       this.logInForm.get('email')?.value,
       this.logInForm.get('password')?.value
     );
+
     this.userService.logInUser(user).subscribe(response => {
-      console.log(response.data);
+      localStorage.setItem('isLoggedIn', 'true');
+      this.router.navigate(['/home']);
       this.errorMessage = null;
       this.okMessage = response.message;  
     }, error => {

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserDTO} from "../../dto/UserDTO";
 import {UserService} from "../../Service/user.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-sign-up-user',
@@ -18,7 +19,7 @@ export class SignUpUserComponent {
   okMessage: string | null = null; 
   errorMessage: string | null = null;
 
-  constructor(private userService:UserService) {}
+  constructor(private userService:UserService, private router:Router) {}
   signUpUser() {
     let user=new UserDTO(
       this.signUpForm.get('email')?.value,
@@ -28,6 +29,7 @@ export class SignUpUserComponent {
     );
     this.userService.saveUser(user).subscribe(response=>{
       console.log(response)
+      this.router.navigate(['/login']);
       this.signUpForm.patchValue({
         email:null,
         name:null,
