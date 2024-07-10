@@ -11,12 +11,15 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {MatButtonModule} from "@angular/material/button";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { HomeComponent } from './components/home/home.component';
+import { AuthGuard } from './Guards/auth.guard';  // Import the AuthGuard
 
 @NgModule({
   declarations: [
     AppComponent,
     SignUpUserComponent,
-    LogInUserComponent
+    LogInUserComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +32,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
