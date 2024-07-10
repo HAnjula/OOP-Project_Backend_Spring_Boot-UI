@@ -15,6 +15,8 @@ export class SignUpUserComponent {
     contactNumber:new FormControl(null,[Validators.required]),
     password:new FormControl(null,[Validators.required])
   })
+  okMessage: string | null = null; 
+  errorMessage: string | null = null;
 
   constructor(private userService:UserService) {}
   signUpUser() {
@@ -32,8 +34,12 @@ export class SignUpUserComponent {
         contactNumber: null,
         password: null
       })
+      this.errorMessage = null;
+      this.okMessage = response.message;  
     },error => {
       console.log(error)
+      this.okMessage = null;
+      this.errorMessage = error.error.message || 'An error occurred';  
     })
   }
 }
