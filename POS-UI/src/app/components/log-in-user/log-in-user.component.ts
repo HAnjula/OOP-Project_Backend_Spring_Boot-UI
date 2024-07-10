@@ -33,7 +33,6 @@ export class LogInUserComponent {
       this.errorMessage = null;
       this.okMessage = response.message;  
     }, error => {
-      console.log(error);
       this.okMessage = null;
       if (error.status === 400) {
         this.errorMessage = error.error.data[0].defaultMessage ;  

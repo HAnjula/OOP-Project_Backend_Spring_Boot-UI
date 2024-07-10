@@ -28,7 +28,6 @@ export class SignUpUserComponent {
       this.signUpForm.get('password')?.value
     );
     this.userService.saveUser(user).subscribe(response=>{
-      console.log(response)
       this.router.navigate(['/login']);
       this.signUpForm.patchValue({
         email:null,
@@ -39,7 +38,6 @@ export class SignUpUserComponent {
       this.errorMessage = null;
       this.okMessage = response.message;  
     },error => {
-      console.log(error);
       this.okMessage = null;
       if (error.status === 400) {
         this.errorMessage = error.error.data[0].defaultMessage ;  

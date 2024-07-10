@@ -10,6 +10,7 @@ export class HomeComponent {
   constructor(private router:Router) {
   }
   goBackSignUp() {
-    this.router.navigate(['/signup']);
+    localStorage.setItem('isLoggedIn', 'false');
+    this.router.navigate(['/login']);
   }
 }
