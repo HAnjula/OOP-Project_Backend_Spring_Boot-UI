@@ -37,9 +37,13 @@ export class SignUpUserComponent {
       this.errorMessage = null;
       this.okMessage = response.message;  
     },error => {
-      console.log(error)
+      console.log(error);
       this.okMessage = null;
-      this.errorMessage = error.error.message || 'An error occurred';  
+      if (error.status === 400) {
+        this.errorMessage = error.error.data[0].defaultMessage ;  
+      }else{
+        this.errorMessage = error.error.message || 'An error occurred';  
+      }
     })
   }
 }
