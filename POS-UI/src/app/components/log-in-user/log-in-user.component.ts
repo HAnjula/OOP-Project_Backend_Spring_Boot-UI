@@ -4,6 +4,7 @@ import { UserService } from "../../Service/user.service";
 import { UserDTOLogIn } from "../../dto/UserDTOLogIn";
 import { Router } from "@angular/router";
 
+
 @Component({
   selector: 'app-log-in-user',
   templateUrl: './log-in-user.component.html',
@@ -15,6 +16,9 @@ export class LogInUserComponent {
     password: new FormControl(null, [Validators.required])
   });
 
+  okMessage: string | null = null; 
+  errorMessage: string | null = null;
+
   constructor(private userService: UserService, private router: Router) {}
 
   logInUser() {
@@ -24,18 +28,18 @@ export class LogInUserComponent {
     );
 
     this.userService.logInUser(user).subscribe(response => {
-      if (response && response.data === 'Successfully logged!') {
-        // Store the login state
-        localStorage.setItem('isLoggedIn', 'true');
-
-        // Navigate to the home screen
-        this.router.navigate(['/home']);
-      } else {
-        alert(response.data);
-      }
+      localStorage.setItem('isLoggedIn', 'true');
+      this.router.navigate(['/home']);
+      this.errorMessage = null;
+      this.okMessage = response.message;  
     }, error => {
       console.log(error);
-      alert('Login failed');
+      this.okMessage = null;
+      if (error.status === 400) {
+        this.errorMessage = error.error.data[0].defaultMessage ;  
+      }else{
+        this.errorMessage = error.error.message || 'An error occurred';  
+      }
     });
   }
 }
